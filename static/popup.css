@@ -201,7 +201,7 @@ body {
   display:block;
   position:relative;
   text-align:left;
-  background:url('');
+  background:url('/static/nocover.png');
   background-size:220px;
   background-position:left top;
   background-repeat:no-repeat;

@@ -1,15 +1,14 @@
 {
   "name": "Google Music Remote",
-  "version": "0.1",
-  "description": "Exposes controls to websocket service, which can be controlled by third devices and applications.",
+  "version": "0.4",
+  "description": "(Remote) Control Google Music.",
   "icons": {"16": "16.png", "48": "48.png", "128": "128.png"},
   "options_page": "options.html",
   "background_page": "background.html",
   "content_scripts": [
     {
       "matches": ["https://play.google.com/music/*"],
-      "js": ["ctrl.js"],
-      "run_at": "document_start"
+      "js": ["ctrl.js"]
     }
   ],
   "browser_action": {
@@ -18,7 +17,9 @@
     "default_popup": "popup.html"
   },
   "permissions": [
-    "tabs", "https://play.google.com/music/*",
+    "tabs",
+    "https://play.google.com/music/*",
+    "http://gmusicr.herokuapp.com/*",
     "http://*/*",
     "https://*/*"
   ]   

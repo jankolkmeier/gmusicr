@@ -5,7 +5,7 @@ function callAction(action, cb) {
   xhr.open("GET", location, true);
   xhr.onreadystatechange = function() {
     if (xhr.readyState == 4) {
-    console.log(xhr.responseText);
+      console.log(xhr.responseText);
       var resp = JSON.parse(xhr.responseText);
       cb(resp);
     }
@@ -14,6 +14,9 @@ function callAction(action, cb) {
 }
 
 function setInfo(data) {
+  console.log(data);
+  if (data.err) return console.log("ERROR: "+data.err);
+  else data = data.data;
   $('#block').css('background-image', 'url("http:'+data.albumArt+'")');
   $('#title').html(data.title);
   $('#subtitle').html(data.artist);
@@ -24,26 +27,18 @@ function setInfo(data) {
 }
 
 function refresh() {
-  callAction('info', function(data) {
-    if (data.err) console.log('ERROR');
-    else setInfo(data.data);
-  });
+  callAction('info', setInfo);
 }
 
 $(document).ready(function() {
-  setInterval(refresh, 7000);
+  //setInterval(refresh, 7000);
   refresh();
   $('#ctrls button').click(function() {
     var elem = $(this);
     elem.attr('disabled', 'disabled');
     callAction(elem.attr('id'), function(data) {
-      if (data.err) console.log('ERROR');
-      else {
-        setInfo(data.data);
-      }
-      setTimeout(function() {
-        elem.removeAttr('disabled');
-      }, 800);
+      setInfo(data);
+      elem.removeAttr('disabled');
     });
   });
 });

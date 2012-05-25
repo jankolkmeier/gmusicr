@@ -1,9 +1,13 @@
 <title>Options Google Music Remote</title>
 <style>
   /* Clone the look and feel of "chrome://" pages. */
-  body, table {
+  body, table, div {
     margin: 10px;
     font: 90% Arial, sans-serif
+  }
+  
+  input[type=text] {
+    width:220px;
   }
 
   h1 { font-size: 156% }
@@ -28,10 +32,11 @@
 <form id="options">
 	<table>
 		<tr><td>Player Secret: </td><td><input name="apikey" id="apikey" type="text" /></td></tr>
-		<tr><td>Remote Server: </td><td><input name="server" id="server" type="text" /></td></tr>
+		<tr><td>Remote Server*: </td><td><input name="server" id="server" type="text" /></td></tr>
 		<tr><td>Act as Player: </td><td><input name="role" id="role" onclick="markDirty()" type="checkbox" /></td></tr>
 		<tr><td><button id="save-button" style="font-weight:bold" onclick="save();">Save</button></td><td></td></tr>
 	</table>
+  <div>*If you rather want to run your own server, check this out: <a href="https://github.com/jouz/gmusicr-server">github.com/jouz/gmusicr-server</a></div>
 </form>
 
 <script>
@@ -62,8 +67,8 @@ function markClean() {
 
 markClean();
 
-apikey.value = localStorage.apikey || "Player1";
-server.value = localStorage.server || "http://beaglebone.local";
+apikey.value = localStorage.apikey || "MyPlayerSecret";
+server.value = localStorage.server || "http://gmusicr.herokuapp.com";
 role.checked = localStorage.role;
 
 document.oninput = function() { markDirty() };
