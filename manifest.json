@@ -1,6 +1,6 @@
 {
   "name": "Google Music Remote",
-  "version": "0.4",
+  "version": "0.7",
   "description": "(Remote) Control Google Music.",
   "icons": {"16": "16.png", "48": "48.png", "128": "128.png"},
   "options_page": "options.html",

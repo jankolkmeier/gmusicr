@@ -2,16 +2,19 @@
 <script>
 	
 	var socket = null;
+  
 	var init = function() {
 		if (!localStorage.isInitialized) {
 			localStorage.isInitialized = true;
-			localStorage.debug = true;
 			localStorage.apikey = "MyPlayerSecret";
 			localStorage.server = "http://gmusicr.herokuapp.com";
-      localStorage.role = true;
+      localStorage.role = false;
 		}
     
     if (localStorage.role) {
+      console.log("Acting as Player");
+      if (socket !== null) socket.disconnect();
+      
       socket = io.connect(localStorage.server);
       
       socket.on('connect', function(){
@@ -29,6 +32,8 @@
           } else return cb({ err: "No Google Music Runnig", data: null });
         });
       });
+    } else {
+      console.log("Not acting as Player");
     }
 	}
   

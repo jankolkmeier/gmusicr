@@ -1,7 +1,18 @@
 function callAction(action, cb) {
   var xhr = new XMLHttpRequest();
-  var location = localStorage.server;
-  location += '/ctrl/'+localStorage.apikey+'/'+action
+  var location;
+  if (localStorage.server !== undefined) {
+    console.log("woot");
+    location  = localStorage.server;
+    location += '/ctrl/'+localStorage.apikey;
+  } else {
+    while (window.location.hash.length < 2) {
+      window.location.hash = '#'+window.prompt("Enter Player Secret to connect:", "");
+    }
+    setInterval(refresh, 8000);
+    location  = '/ctrl/'+window.location.hash.substring(1);
+  }
+  location += '/'+action;
   xhr.open("GET", location, true);
   xhr.onreadystatechange = function() {
     if (xhr.readyState == 4) {
@@ -15,8 +26,11 @@ function callAction(action, cb) {
 
 function setInfo(data) {
   console.log(data);
-  if (data.err) return console.log("ERROR: "+data.err);
-  else data = data.data;
+  if (data.err) {
+    $('#title').html('Error');
+    $('#subtitle').html(data.err);
+    return;
+  } else data = data.data;
   $('#block').css('background-image', 'url("http:'+data.albumArt+'")');
   $('#title').html(data.title);
   $('#subtitle').html(data.artist);
