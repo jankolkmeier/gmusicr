@@ -1,5 +1,6 @@
 # GMusicR Chrome Extension
 GMusicR is a Chrome Extension that allows you to remotely control the Google Music Player. Communication works by relaying messages through WebSockets using a third server. It is open so everybody can run their own.
+The server is also open source, see <a href="https://github.com/jouz/gmusicr-server">here</a>.
 
 ## Disclaimer
 This software is not tested. Further, the only security measurement to prevent others to skip your songs is the use of a secret. Everybody using the same secret can control each other's music.
