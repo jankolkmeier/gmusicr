@@ -1,0 +1,70 @@
+<title>Options Google Music Remote</title>
+<style>
+  /* Clone the look and feel of "chrome://" pages. */
+  body, table {
+    margin: 10px;
+    font: 90% Arial, sans-serif
+  }
+
+  h1 { font-size: 156% }
+
+  h1 img {
+    margin: 1px 5px 0 1px;
+    vertical-align: middle
+  }
+
+  h2 {
+    border-top: 1px solid #9cc2ef;
+    background-color: #ebeff9;
+    padding: 3px 5px;
+    font-size: 100%
+  }
+</style>
+<h1>
+  <img src="48.png" alt="SMARTXP" />
+  Google Music Remote
+</h1>
+<h2>Options</h2>
+<form id="options">
+	<table>
+		<tr><td>Player Secret: </td><td><input name="apikey" id="apikey" type="text" /></td></tr>
+		<tr><td>Remote Server: </td><td><input name="server" id="server" type="text" /></td></tr>
+		<tr><td>Act as Player: </td><td><input name="role" id="role" onclick="markDirty()" type="checkbox" /></td></tr>
+		<tr><td><button id="save-button" style="font-weight:bold" onclick="save();">Save</button></td><td></td></tr>
+	</table>
+</form>
+
+<script>
+apikey = document.getElementById("apikey");
+server = document.getElementById("server");
+role = document.getElementById("role");
+
+saveButton = document.getElementById("save-button");
+
+function save() {
+	localStorage.apikey = apikey.value;
+	localStorage.server = server.value;
+	localStorage.role = role.checked;
+  
+	markClean();
+	localStorage.debug = true;
+
+	chrome.extension.getBackgroundPage().init();
+}
+
+function markDirty() {
+	saveButton.disabled = false;
+}
+
+function markClean() {
+	saveButton.disabled = true;
+}
+
+markClean();
+
+apikey.value = localStorage.apikey || "Player1";
+server.value = localStorage.server || "http://beaglebone.local";
+role.checked = localStorage.role;
+
+document.oninput = function() { markDirty() };
+</script>

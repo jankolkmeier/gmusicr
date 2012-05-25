@@ -1,0 +1,63 @@
+<script type="text/javascript" src="/static/socket.io.js"></script>
+<script>
+	
+	var socket = null;
+	var init = function() {
+		if (!localStorage.isInitialized) {
+			localStorage.isActivated = true;
+			localStorage.isInitialized = true;
+			localStorage.debug = true;
+			localStorage.apikey = "Player1";
+			localStorage.server = "http://beaglebone.local:4321";
+		}
+  
+    socket = io.connect(localStorage.server);
+    
+    socket.on('connect', function(){
+      socket.emit('register', { id: localStorage.apikey });
+    });
+    
+    socket.on('action', function(data, cb) {
+      console.log("action: "+data.type);
+      if (data.id !== localStorage.apikey) {
+        console.log("ignoring request for id="+data.id+", (should be "+localStorage.apikey+")");
+        return cb(true);
+      }
+      
+      chrome.tabs.query({ url:'https://play.google.com/music/*' }, function(tabs) {
+        if (tabs.length > 0) {
+          chrome.tabs.sendRequest(tabs[0].id, {'action' : 'playback_action', 'type' : data.type}, function(err) {
+            cb(err);
+          });
+        } else return cb(true);
+      });
+    });
+    
+    socket.on('info', function(data, cb) {
+      console.log("action: info");
+      if (data.id !== localStorage.apikey) {
+        console.log("ignoring request for id="+data.id+", (should be "+localStorage.apikey+")");
+        return cb(true);
+      }
+      chrome.tabs.query({ url:'https://play.google.com/music/*' }, function(tabs) {
+        if (tabs.length > 0) {
+          chrome.tabs.sendRequest(tabs[0].id, { 'action' : 'info_action' }, function(data) {
+            if (typeof data !== 'object') cb(true);
+            else cb(data.err, data.data);
+          });
+        } else return cb(true);
+      });
+    });
+	}
+  
+	onload = function() {
+		init();
+	};
+	
+	// Called when the user clicks on the browser action.
+	chrome.browserAction.onClicked.addListener(function(tab) {
+		init();
+	});
+</script>
+</head>
+</html>
