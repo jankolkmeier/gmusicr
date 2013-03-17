@@ -33,44 +33,13 @@
 	<table>
 		<tr><td>Player Secret: </td><td><input name="apikey" id="apikey" type="text" /></td></tr>
 		<tr><td>Remote Server: </td><td><input name="server" id="server" type="text" /></td></tr>
-		<tr><td>Act as Player: </td><td><input name="role" id="role" onclick="markDirty()" type="checkbox" /></td></tr>
-		<tr><td><button id="save-button" style="font-weight:bold" onclick="save();">Save</button></td><td></td></tr>
+		<tr><td>Act as Player: </td><td><input name="role" id="role" type="checkbox" /></td></tr>
+		<tr><td><button id="save-button" style="font-weight:bold">Save</button></td><td></td></tr>
 	</table>
   <div>Choose a (difficult to guess) string as the Player Secret. Use the same for the Computer where the Google Music instance is running and for all clients that connect to that Computer.</div>
   <div>If you rather want to run your own server, check this out: <a href="https://github.com/jouz/gmusicr-server">github.com/jouz/gmusicr-server</a></div>
   <div>Only check 'Act as Player' on the Computer where the instance of Google Music is running.</div>
 </form>
 
-<script>
-apikey = document.getElementById("apikey");
-server = document.getElementById("server");
-role = document.getElementById("role");
-
-saveButton = document.getElementById("save-button");
-
-function save() {
-	localStorage.apikey = apikey.value;
-	localStorage.server = server.value;
-	localStorage.role = (role.checked === 'true');
-  
-	markClean();
-
-	chrome.extension.getBackgroundPage().init();
-}
-
-function markDirty() {
-	saveButton.disabled = false;
-}
-
-function markClean() {
-	saveButton.disabled = true;
-}
-
-markClean();
-
-apikey.value = localStorage.apikey || "MyPlayerSecret";
-server.value = localStorage.server || "http://gmusicr.herokuapp.com";
-role.checked = localStorage.role;
-
-document.oninput = function() { markDirty() };
+<script src="options.js">
 </script>

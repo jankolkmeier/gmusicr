@@ -52,7 +52,7 @@ function info_action(cb) {
   var checkedClass = 'goog-flat-button-checked';
   
   try {
-    artist = document.getElementById('playerArtist').innerText;
+    artist = document.getElementById('player-artist').innerText;
     title = document.getElementById('playerSongTitle').innerText;
   } catch (err) {
     return cb({ err: "Player Not Active", data:null });

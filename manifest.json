@@ -1,10 +1,13 @@
 {
   "name": "Google Music Remote",
-  "version": "0.7",
+  "version": "0.8",
   "description": "(Remote) Control Google Music.",
   "icons": {"16": "16.png", "48": "48.png", "128": "128.png"},
   "options_page": "options.html",
-  "background_page": "background.html",
+  "background": {
+    "page": "background.html"
+  },
+  "manifest_version": 2,
   "content_scripts": [
     {
       "matches": ["https://play.google.com/music/*"],

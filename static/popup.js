@@ -2,16 +2,15 @@ function callAction(action, cb) {
   var xhr = new XMLHttpRequest();
   var location;
   if (localStorage.server !== undefined) {
-    console.log("woot");
     location  = localStorage.server;
     location += '/ctrl/'+localStorage.apikey;
   } else {
-    while (window.location.hash.length < 2) {
+    while (window.location.hash.length < 3) {
       window.location.hash = '#'+window.prompt("Enter Player Secret to connect:", "");
     }
-    setInterval(refresh, 8000);
     location  = '/ctrl/'+window.location.hash.substring(1);
   }
+  setInterval(refresh, 8000);
   location += '/'+action;
   xhr.open("GET", location, true);
   xhr.onreadystatechange = function() {
@@ -25,7 +24,6 @@ function callAction(action, cb) {
 }
 
 function setInfo(data) {
-  console.log(data);
   if (data.err) {
     $('#title').html('Error');
     $('#subtitle').html(data.err);
